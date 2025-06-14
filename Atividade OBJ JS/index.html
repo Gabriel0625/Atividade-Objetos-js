@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestão de Equipamentos</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<body>
+  <h1>Cadastro de Equipamentos</h1>
+ 
+  <h2>Adicionar Equipamento</h2>
+  <form id="formAdicionar">
+    <label for="codigo">Código:</label>
+    <input type="number" id="codigo" required><br>
+ 
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" required><br>
+ 
+    <label for="preco">Preço:</label>
+    <input type="number" id="preco" step="0.01" required><br>
+ 
+    <button type="submit">Adicionar</button>
+  </form>
+ 
+  <h2>Atualizar Preço</h2>
+  <form id="formAtualizar">
+    <label for="codigoAtualizar">Código:</label>
+    <input type="number" id="codigoAtualizar" required><br>
+ 
+    <label for="novoPreco">Novo Preço:</label>
+    <input type="number" id="novoPreco" step="0.01" required><br>
+ 
+    <button type="submit">Atualizar Preço</button>
+  </form>
+ 
+  <h2>Lista de Equipamentos</h2>
+  <ul id="listaEquipamentos"></ul>
+ 
+
+
+  <script>
+
+    
+    let equipamentos = [
+        { codigo: 1, nome: "Notebook", preco: 3500.00 },
+        { codigo: 2, nome: "Impressora", preco: 1200.00 }
+      ];
+       
+     
+      function exibirEquipamentos() {
+        const lista = document.getElementById("listaEquipamentos");
+        lista.innerHTML = "";
+        console.clear();
+        console.log("Equipamentos cadastrados:");
+        equipamentos.forEach(equip => {
+          const item = document.createElement("li");
+          item.textContent = `Código: ${equip.codigo}, Nome: ${equip.nome}, Preço: R$ ${equip.preco.toFixed(2)}`;
+          lista.appendChild(item);
+          console.log(item.textContent);
+        });
+      }
+       
+      
+      document.getElementById("formAdicionar").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const codigo = parseInt(document.getElementById("codigo").value);
+        const nome = document.getElementById("nome").value;
+        const preco = parseFloat(document.getElementById("preco").value);
+       
+        equipamentos.push({ codigo, nome, preco });
+        exibirEquipamentos();
+       
+    
+        this.reset();
+      });
+       
+    
+      document.getElementById("formAtualizar").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const codigo = parseInt(document.getElementById("codigoAtualizar").value);
+        const novoPreco = parseFloat(document.getElementById("novoPreco").value);
+       
+        const equipamento = equipamentos.find(equip => equip.codigo === codigo);
+        if (equipamento) {
+          equipamento.preco = novoPreco;
+          alert(`Preço atualizado com sucesso!`);
+        } else {
+          alert("Equipamento não encontrado!");
+        }
+        exibirEquipamentos();
+        this.reset();
+      });
+       
+    
+      window.onload = exibirEquipamentos;
+       
+    
+    </script>
+
+</body>
+</html>
